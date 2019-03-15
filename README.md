@@ -2,6 +2,8 @@
 An `IdlingResource` and a `TestRule` that keep espresso busy while 
 at least one view matches a `Matcher<View>`
 
+[![](https://jitpack.io/v/mirceanis/view-matching-idler.svg)](https://jitpack.io/#mirceanis/view-matching-idler)
+
 Sometimes it's too hard or complicated to set up `IdlingResource`s to let espresso know
 when your app is busy.
 In a lot of those cases there may also be a visual indicator on screen.
