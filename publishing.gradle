@@ -1,0 +1,65 @@
+def gitUrl = "https://github.com/mirceanis/view-matching-idler.git"
+def siteUrl = "https://github.com/mirceanis/view-matching-idler"
+def groupID = "com.github.mirceanis.view-matching-idler"
+
+subprojects { subproject ->
+
+    afterEvaluate {
+
+        if (subproject.plugins.hasPlugin('com.github.dcendents.android-maven')) {
+
+            subproject.group = groupID
+            subproject.version = project_version
+            subproject.description = subproject.ext.has("description") ? subproject.ext.description : ""
+
+            //pom fields required by maven central
+            install {
+                repositories.mavenInstaller {
+                    pom.project {
+                        packaging 'aar'
+                        groupId subproject.group
+                        artifactId subproject.name
+
+                        name subproject.name
+                        description subproject.description
+
+                        url siteUrl
+
+                        licenses {
+                            license {
+                                name "The MIT License"
+                                url "https://opensource.org/licenses/MIT"
+                            }
+                        }
+                        developers {
+                            developer {
+                                id "mirceanis"
+                                name "Mircea Nistor"
+                            }
+                        }
+                        scm {
+                            connection gitUrl
+                            developerConnection gitUrl
+                            url siteUrl
+                        }
+                    }
+                }
+            }
+
+            task sourcesJar(type: Jar) {
+                classifier = 'sources'
+                if (subproject.hasProperty("android")) {
+                    from android.sourceSets.main.javaDirectories
+                } else {
+                    from sourceSets.main.java.srcDirs
+                }
+            }
+
+            artifacts {
+                archives sourcesJar
+            }
+
+        }
+
+    }
+}
